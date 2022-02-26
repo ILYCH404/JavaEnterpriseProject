@@ -1,16 +1,41 @@
 package ru.javawebinar.topjava.model;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+@NamedQueries({
+        @NamedQuery(name = Meal.GET, query = "SELECT u FROM Meal u WHERE u.id=:id AND u.user.id=:id"),
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal u WHERE u.id=:id AND u.user.id=:user_id"),
+        @NamedQuery(name = Meal.BETWEEN_HALF_OPEN, query = "SELECT u FROM Meal u LEFT JOIN FETCH u.user m " +
+                "WHERE u.user.id= ?1 AND u.dateTime >= ?2 AND u.dateTime < ?3" +
+                "ORDER BY u.dateTime DESC"),
+        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT u FROM Meal u  JOIN FETCH u.user WHERE " +
+                                                    "u.user.id=:user_id ORDER BY u.dateTime DESC")
+})
+
+@Entity
+@Table(name = "meals")
 public class Meal extends AbstractBaseEntity {
+
+    public static final String GET = "Meal.get";
+    public static final String DELETE = "Meal.delete";
+    public static final String BETWEEN_HALF_OPEN = "Meal.getBetweenHalfOpen";
+    public static final String ALL_SORTED = "Meal.getAllSorted";
+
+    @Column(name = "date_time", nullable = false)
+    @NotNull
     private LocalDateTime dateTime;
 
+    @Column(name = "description", nullable = false)
+    @NotNull
     private String description;
 
+    @Column(name = "calories", nullable = false)
+    @NotNull
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
