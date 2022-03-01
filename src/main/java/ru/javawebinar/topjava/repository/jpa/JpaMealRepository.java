@@ -50,10 +50,6 @@ public class JpaMealRepository implements MealRepository {
             return null;
         }
         return meal;
-        /*return em.createNamedQuery(Meal.GET, Meal.class)
-                .setParameter("id", id)
-                .setParameter("user_id", userId)
-                .getSingleResult();*/
     }
 
     @Override

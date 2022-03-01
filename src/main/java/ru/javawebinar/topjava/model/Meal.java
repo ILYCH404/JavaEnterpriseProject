@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @NamedQueries({
-        @NamedQuery(name = Meal.GET, query = "SELECT u FROM Meal u WHERE u.id=:id AND u.user.id=:id"),
         @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal u WHERE u.id=:id AND u.user.id=:user_id"),
         @NamedQuery(name = Meal.BETWEEN_HALF_OPEN, query = "SELECT u FROM Meal u JOIN u.user m " +
                 "WHERE u.user.id= ?1 AND u.dateTime >= ?2 AND u.dateTime < ?3" +
@@ -21,7 +20,6 @@ import java.time.LocalTime;
 @Table(name = "meals")
 public class Meal extends AbstractBaseEntity {
 
-    public static final String GET = "Meal.get";
     public static final String DELETE = "Meal.delete";
     public static final String BETWEEN_HALF_OPEN = "Meal.getBetweenHalfOpen";
     public static final String ALL_SORTED = "Meal.getAllSorted";
