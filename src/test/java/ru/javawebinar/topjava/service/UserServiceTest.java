@@ -88,16 +88,4 @@ public abstract class UserServiceTest extends ServiceTest {
         List<User> all = service.getAll();
         USER_MATCHER.assertMatch(all, admin, guest, user);
     }
-
-    @Test
-    public void getWithMeals() {
-        try {
-            User getWithMeals = service.getWithMeals(USER_ID);
-            User newUser = user;
-            newUser.setMeals(MealTestData.meals);
-            USER_MATCHER.assertMatch(getWithMeals, newUser);
-        } catch (UnsupportedOperationException e) {
-            Assert.assertThrows(UnsupportedOperationException.class, () -> service.getWithMeals(USER_ID));
-        }
-    }
 }

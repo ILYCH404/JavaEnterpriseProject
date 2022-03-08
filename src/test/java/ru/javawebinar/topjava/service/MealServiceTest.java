@@ -102,16 +102,4 @@ public abstract class MealServiceTest extends ServiceTest {
         MEAL_MATCHER.assertMatch(service.getBetweenInclusive(null, null, USER_ID), meals);
     }
 
-    @Test
-    public void getMealWithUser() {
-        try {
-            Meal getMealWithUser = service.getMealWithUser(MEAL1_ID, USER_ID);
-            Meal meal = meal1;
-            meal.setUser(UserTestData.user);
-            MEAL_MATCHER.assertMatch(getMealWithUser, meal);
-        } catch (UnsupportedOperationException e) {
-            Assert.assertThrows(UnsupportedOperationException.class, () -> service.getMealWithUser(MEAL1_ID, USER_ID));
-        }
-
-    }
 }
