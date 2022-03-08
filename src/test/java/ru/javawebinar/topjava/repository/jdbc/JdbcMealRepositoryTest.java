@@ -4,7 +4,7 @@ import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.service.MealServiceTest;
 
-import static org.junit.Assert.*;
+
 @ActiveProfiles(Profiles.JDBC)
 public class JdbcMealRepositoryTest extends MealServiceTest {
 

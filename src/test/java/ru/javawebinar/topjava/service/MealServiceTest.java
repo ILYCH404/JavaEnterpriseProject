@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -96,9 +97,21 @@ public abstract class MealServiceTest extends ServiceTest {
                         LocalDate.of(2020, Month.JANUARY, 30), USER_ID),
                 meal3, meal2, meal1);
     }
-
     @Test
     public void getBetweenWithNullDates() {
         MEAL_MATCHER.assertMatch(service.getBetweenInclusive(null, null, USER_ID), meals);
+    }
+
+    @Test
+    public void getMealWithUser() {
+        try {
+            Meal getMealWithUser = service.getMealWithUser(MEAL1_ID, USER_ID);
+            Meal meal = meal1;
+            meal.setUser(UserTestData.user);
+            MEAL_MATCHER.assertMatch(getMealWithUser, meal);
+        } catch (UnsupportedOperationException e) {
+            Assert.assertThrows(UnsupportedOperationException.class, () -> service.getMealWithUser(MEAL1_ID, USER_ID));
+        }
+
     }
 }

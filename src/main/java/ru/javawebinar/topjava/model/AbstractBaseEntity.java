@@ -5,6 +5,7 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import java.util.List;
 
 @MappedSuperclass
 // http://stackoverflow.com/questions/594597/hibernate-annotations-which-is-better-field-or-property-access
@@ -18,7 +19,6 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
 //  See https://hibernate.atlassian.net/browse/HHH-3718 and https://hibernate.atlassian.net/browse/HHH-12034
 //  Proxy initialization when accessing its identifier managed now by JPA_PROXY_COMPLIANCE setting
     protected Integer id;
-
     protected AbstractBaseEntity() {
     }
 

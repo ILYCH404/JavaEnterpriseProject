@@ -5,12 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.repository.UserRepository;
-import ru.javawebinar.topjava.service.UserService;
-import ru.javawebinar.topjava.web.meal.MealRestController;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,16 +15,16 @@ public class DataJpaMealRepository implements MealRepository {
 
     private final CrudMealRepository crudRepository;
 
-    @PersistenceContext
-    private EntityManager em;
+    private final CrudUserRepository crudUserRepository;
 
-    public DataJpaMealRepository(CrudMealRepository crudRepository) {
+    public DataJpaMealRepository(CrudMealRepository crudRepository, CrudUserRepository crudUserRepository) {
         this.crudRepository = crudRepository;
+        this.crudUserRepository = crudUserRepository;
     }
 
     @Override
     public Meal save(Meal meal, int userId) {
-        meal.setUser(em.getReference(User.class, userId));
+        meal.setUser(crudUserRepository.getById(userId));
          if (meal.isNew()) {
             return crudRepository.save(meal);
         } else if(crudRepository.findByIdAndUserId(meal.id(), userId) == null) {
@@ -57,5 +52,12 @@ public class DataJpaMealRepository implements MealRepository {
     @Override
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
         return crudRepository.getBetween(startDateTime, endDateTime, userId);
+    }
+
+    @Override
+    public Meal getMealWithUser(int id, int userId) {
+        Meal meal = get(id, userId);
+        meal.setUser(crudUserRepository.getById(userId));
+        return meal;
     }
 }

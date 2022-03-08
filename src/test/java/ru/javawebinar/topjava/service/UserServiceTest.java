@@ -1,10 +1,12 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
+import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
@@ -13,6 +15,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import java.util.List;
 
 import static org.junit.Assert.assertThrows;
+import static ru.javawebinar.topjava.MealTestData.MEAL1_ID;
 import static ru.javawebinar.topjava.UserTestData.*;
 
 
@@ -84,5 +87,17 @@ public abstract class UserServiceTest extends ServiceTest {
     public void getAll() {
         List<User> all = service.getAll();
         USER_MATCHER.assertMatch(all, admin, guest, user);
+    }
+
+    @Test
+    public void getWithMeals() {
+        try {
+            User getWithMeals = service.getWithMeals(USER_ID);
+            User newUser = user;
+            newUser.setMeals(MealTestData.meals);
+            USER_MATCHER.assertMatch(getWithMeals, newUser);
+        } catch (UnsupportedOperationException e) {
+            Assert.assertThrows(UnsupportedOperationException.class, () -> service.getWithMeals(USER_ID));
+        }
     }
 }
