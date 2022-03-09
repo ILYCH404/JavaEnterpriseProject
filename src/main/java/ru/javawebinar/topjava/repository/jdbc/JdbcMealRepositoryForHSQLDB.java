@@ -11,10 +11,11 @@ import java.time.LocalDateTime;
 
 @Repository
 @Profile(Profiles.HSQL_DB)
-public class JdbcMealRepositoryForHSQLDB extends JdbcMealRepository{
+public class JdbcMealRepositoryForHSQLDB extends JdbcMealRepository {
     public JdbcMealRepositoryForHSQLDB(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         super(jdbcTemplate, namedParameterJdbcTemplate);
     }
+
     public static Timestamp LdtForPostgres(LocalDateTime time) {
         return Timestamp.valueOf(time);
     }

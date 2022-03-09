@@ -15,6 +15,8 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static ru.javawebinar.topjava.repository.jdbc.JdbcMealRepositoryForPostgreSQL.LdtForPostgres;
+
 @Repository
 public abstract class JdbcMealRepository implements MealRepository {
 
@@ -44,7 +46,7 @@ public abstract class JdbcMealRepository implements MealRepository {
                 .addValue("id", meal.getId())
                 .addValue("description", meal.getDescription())
                 .addValue("calories", meal.getCalories())
-                .addValue("date_time", JdbcMealRepositoryForHSQLDB.LdtForPostgres(meal.getDateTime()))
+                .addValue("date_time", LdtForPostgres(meal.getDateTime()))
                 .addValue("user_id", userId);
 
         if (meal.isNew()) {
@@ -84,7 +86,7 @@ public abstract class JdbcMealRepository implements MealRepository {
         return jdbcTemplate.query(
                 "SELECT * FROM meals WHERE user_id=?  AND date_time >=  ? AND date_time < ? ORDER BY date_time DESC",
                 ROW_MAPPER, userId,
-                mealRepositoryForHSQLDB.LdtForPostgres(startDateTime),
-                mealRepositoryForHSQLDB.LdtForPostgres(endDateTime));
+                LdtForPostgres(startDateTime),
+                LdtForPostgres(endDateTime));
     }
 }

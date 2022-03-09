@@ -8,8 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
