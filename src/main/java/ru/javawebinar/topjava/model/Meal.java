@@ -36,7 +36,7 @@ public class Meal extends AbstractBaseEntity {
     @Column(name = "description", nullable = false)
     @NotBlank
     @Size(min = 2, max = 120)
-    private String description;
+    private String description; 
 
     @Column(name = "calories", nullable = false)
     @Range(min = 10, max = 5000)
