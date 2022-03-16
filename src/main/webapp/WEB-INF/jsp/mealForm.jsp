@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <title>Meal</title>
+    <title><spring:message code="meal.title"/></title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -16,25 +16,25 @@
     <form method="post" action="${pageContext.request.contextPath}/meals"> <%--Сделать сохранение еды--%>
         <input type="hidden" name="id" value="${meal.id}">
         <dl>
-            <dt>DateTime:</dt>
+            <dt><spring:message code="meal.date"/>:</dt>
             <dd><label>
                 <input type="datetime-local" value="${meal.dateTime}" name="dateTime" required>
             </label></dd>
         </dl>
         <dl>
-            <dt>Description:</dt>
+            <dt><spring:message code="meal.description"/>:</dt>
             <dd><label>
                 <input type="text" value="${meal.description}" size=40 name="description" required>
             </label></dd>
         </dl>
         <dl>
-            <dt>Calories:</dt>
+            <dt><spring:message code="meal.calories"/>:</dt>
             <dd><label>
                 <input type="number" value="${meal.calories}" name="calories" required>
             </label></dd>
         </dl>
         <button type="submit"><spring:message code="common.save"/></button>
-        <button onclick="window.history.back()" type="button">Cancel</button>
+        <button onclick="window.history.back()" type="button"><spring:message code="common.cancel"/></button>
     </form>
 </section>
 </body>

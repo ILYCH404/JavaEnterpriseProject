@@ -5,30 +5,30 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title>Meals</title>
+    <title><spring:message code="meal.title"/> </title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <section>
-    <h3><a href="index.jsp">Home</a></h3>
+    <h3><a href="index.jsp"><spring:message code="app.home"/> </a></h3>
     <hr/>
-    <h2>Meals</h2>
+    <h2><spring:message code="meal.title"/></h2>
     <form method="post" action="${pageContext.request.contextPath}/meals/filter">
         <input type="hidden" name="action" value="filter">
         <dl>
-            <dt>From Date (inclusive):</dt>
+            <dt><spring:message code="meal.startDate"/></dt>
             <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
         </dl>
         <dl>
-            <dt>To Date (inclusive):</dt>
+            <dt><spring:message code="meal.endDate"/></dt>
             <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
         </dl>
         <dl>
-            <dt>From Time (inclusive):</dt>
+            <dt><spring:message code="meal.startTime"/></dt>
             <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
         </dl>
         <dl>
-            <dt>To Time (exclusive):</dt>
+            <dt><spring:message code="meal.endTime"/></dt>
             <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
         </dl>
         <button type="submit"><spring:message code="meal.filter"/></button>
@@ -39,9 +39,9 @@
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Calories</th>
+            <th><spring:message code="meal.date"/></th>
+            <th><spring:message code="meal.description"/></th>
+            <th><spring:message code="meal.calories"/></th>
             <th></th>
             <th></th>
         </tr>
