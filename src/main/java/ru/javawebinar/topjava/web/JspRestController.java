@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.service.MealService;
+import ru.javawebinar.topjava.web.meal.MealRestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -22,8 +23,12 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 
 @Controller
 @RequestMapping(value = "/meals")
-public class JspRestController extends AbstractMealController {
+public class JspRestController extends MealRestController {
     private static final Logger log = LoggerFactory.getLogger(JspRestController.class);
+
+    public JspRestController(MealService service) {
+        super(service);
+    }
 
     @GetMapping("/delete")
     public String delete(HttpServletRequest request) {
@@ -38,19 +43,19 @@ public class JspRestController extends AbstractMealController {
     }
 
     @GetMapping("/update")
-    public String update(HttpServletRequest request, Model model) {
+    public String update(HttpServletRequest request) {
         request.setAttribute("meal", super.get(getId(request)));
         return "mealForm";
     }
 
     @GetMapping("/create")
-    public String create(HttpServletRequest request, Model model) {
+    public String create(HttpServletRequest request) {
         request.setAttribute("meal", new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000));
         return "mealForm";
     }
 
     @PostMapping("/filter")
-    public String filter(HttpServletRequest request, Model model) {
+    public String filter(HttpServletRequest request) {
         LocalDate startDate = parseLocalDate(request.getParameter("startDate"));
         LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
         LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
@@ -66,7 +71,7 @@ public class JspRestController extends AbstractMealController {
                 request.getParameter("description"),
                 Integer.parseInt(request.getParameter("calories")));
 
-        if(request.getParameter("id").isEmpty()) {
+        if (request.getParameter("id").isEmpty()) {
             super.create(meal);
         } else {
             super.update(meal, getId(request));
