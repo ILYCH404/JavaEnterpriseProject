@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.repository.jdbc;
+package ru.javawebinar.topjava.util;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -11,11 +11,10 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class UserSetExtractor implements ResultSetExtractor<Map<Integer, Set<Role>>> {
+public class UserSetExtractorForJdbc implements ResultSetExtractor<Map<Integer, Set<Role>>> {
 
     @Override
     public Map<Integer, Set<Role>> extractData(ResultSet rs) throws SQLException, DataAccessException {
-
         Map<Integer, Set<Role>> roles = new LinkedHashMap<>();
         while (rs.next()) {
             Integer id = rs.getInt("user_id");

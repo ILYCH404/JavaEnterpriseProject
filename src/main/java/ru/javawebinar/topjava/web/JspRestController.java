@@ -25,13 +25,17 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 
 @Controller
 @RequestMapping(value = "/meals")
-public class JspRestController  {
+public class JspRestController {
     private static final Logger log = LoggerFactory.getLogger(JspRestController.class);
 
-    @Autowired
-    private MealService service;
+    private final MealService service;
 
     private final int userId = SecurityUtil.authUserId();
+
+    @Autowired
+    public JspRestController(MealService service) {
+        this.service = service;
+    }
 
     @GetMapping("/delete")
     public String delete(HttpServletRequest request) {
@@ -57,7 +61,7 @@ public class JspRestController  {
         return "mealForm";
     }
 
-    @PostMapping("/filter")
+    @GetMapping("/filter")
     public String filter(HttpServletRequest request) {
         LocalDate startDate = parseLocalDate(request.getParameter("startDate"));
         LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
@@ -80,13 +84,12 @@ public class JspRestController  {
             service.create(meal, userId);
         } else {
             meal.setId(getId(request));
-            service.update(meal,userId);
+            service.update(meal, userId);
         }
         return "redirect:/meals";
     }
 
-
-    public int getId(HttpServletRequest request) {
+    private int getId(HttpServletRequest request) {
         String id = Objects.requireNonNull(request.getParameter("id"));
         return Integer.parseInt(id);
     }

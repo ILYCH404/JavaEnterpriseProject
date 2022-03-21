@@ -13,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.util.UserSetExtractorForJdbc;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
+import static ru.javawebinar.topjava.util.SetAndAddUserRoles.*;
 
 @Repository
 @Transactional(readOnly = true)
@@ -41,6 +41,7 @@ public class JdbcUserRepository implements UserRepository {
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
+
 
     @Transactional
     @Override
@@ -70,51 +71,22 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public User get(int id) {
         List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE id=?", ROW_MAPPER, id);
-        setRoles(users);
+        setRolesById(users, id);
         return DataAccessUtils.singleResult(users);
     }
 
     @Override
     @MaybeNull
     public User getByEmail(String email) {
-        /*List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE email=?", ROW_MAPPER, email);
-        return DataAccessUtils.singleResult(users);*/
         List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE email=?", ROW_MAPPER, email);
-        setRoles(users);
-
+        setRolesByEmail(users, email);
         return DataAccessUtils.singleResult(users);
     }
 
     @Override
     public List<User> getAll() {
         List<User> users = jdbcTemplate.query("SELECT * FROM users ORDER BY name, email", ROW_MAPPER);
-        setRoles(users);
+        setAllRoles(users);
         return users;
     }
-
-    private void setRoles(List<User> users) {
-        Map<Integer, Set<Role>> roles = jdbcTemplate.query("SELECT * FROM user_roles", new UserSetExtractor());
-        for (User list : users) {
-            if (roles != null) {
-                for (Integer q : roles.keySet()) {
-                    if (list.getId() == q.intValue()) {
-                        list.setRoles(roles.get(q));
-                    }
-                }
-            }
-            if (list.getRoles() == null) {
-                list.setRoles(new HashSet<>());
-            }
-        }
-    }
-
-    private void addRole(User user) {
-        Set<Role> roles = user.getRoles();
-        jdbcTemplate.batchUpdate("INSERT INTO user_roles(user_id, role) VALUES (?, ?)", roles, roles.size(),
-                (ps, argument) -> {
-                    ps.setInt(1, user.getId());
-                    ps.setString(2, argument.name());
-                });
-    }
-
 }

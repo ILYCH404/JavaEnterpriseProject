@@ -7,20 +7,14 @@ import org.springframework.util.Assert;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import java.util.List;
-import java.util.Set;
 
+import static ru.javawebinar.topjava.util.ValidateForJdbc.validate;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class UserService {
-
-    private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     private final UserRepository repository;
 
@@ -30,7 +24,7 @@ public class UserService {
 
     @CacheEvict(value = "users", allEntries = true)
     public User create(User user) {
-        validated(user);
+        validate(user);
         return repository.save(user);
     }
 
@@ -55,21 +49,8 @@ public class UserService {
 
     @CacheEvict(value = "users", allEntries = true)
     public void update(User user) {
-        validated(user);
+        validate(user);
         checkNotFoundWithId(repository.save(user), user.id());
-    }
-
-    private void validated(User meal) {
-        Set<ConstraintViolation<User>> violations = validator.validate(meal);
-
-        if (!violations.isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            for (ConstraintViolation<User> constraintViolation : violations) {
-                sb.append(constraintViolation.getMessage());
-            }
-            throw new ConstraintViolationException("Error occurred: " + sb, violations);
-        }
-        Assert.notNull(meal, "meal must not be null");
     }
 
     public User getWithMeals(int id) {
