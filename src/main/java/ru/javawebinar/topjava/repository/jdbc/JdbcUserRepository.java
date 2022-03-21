@@ -58,7 +58,7 @@ public class JdbcUserRepository implements UserRepository {
             return null;
         }
         jdbcTemplate.update("DELETE FROM user_roles WHERE user_id=?", user.getId());
-        addRole(user);
+        addRole(user, jdbcTemplate);
         return user;
     }
 
@@ -71,7 +71,7 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public User get(int id) {
         List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE id=?", ROW_MAPPER, id);
-        setRolesById(users, id);
+        setRolesById(users, id, jdbcTemplate);
         return DataAccessUtils.singleResult(users);
     }
 
@@ -79,14 +79,14 @@ public class JdbcUserRepository implements UserRepository {
     @MaybeNull
     public User getByEmail(String email) {
         List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE email=?", ROW_MAPPER, email);
-        setRolesByEmail(users, email);
+        setRolesByEmail(users, email, jdbcTemplate);
         return DataAccessUtils.singleResult(users);
     }
 
     @Override
     public List<User> getAll() {
         List<User> users = jdbcTemplate.query("SELECT * FROM users ORDER BY name, email", ROW_MAPPER);
-        setAllRoles(users);
+        setAllRoles(users, jdbcTemplate);
         return users;
     }
 }
