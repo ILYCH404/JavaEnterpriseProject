@@ -10,8 +10,8 @@ import java.util.List;
 
 import static ru.javawebinar.topjava.util.DateTimeUtil.atStartOfDayOrMin;
 import static ru.javawebinar.topjava.util.DateTimeUtil.atStartOfNextDayOrMax;
-import static ru.javawebinar.topjava.util.ValidateForJdbc.validate;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
+import static ru.javawebinar.topjava.util.ValidationUtil.validate;
 
 @Service
 public class MealService {

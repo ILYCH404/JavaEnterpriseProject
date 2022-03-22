@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.support.NoOpCacheManager;
-import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataAccessException;
 import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Role;
@@ -24,12 +22,10 @@ import static ru.javawebinar.topjava.UserTestData.*;
 public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Autowired
     protected UserService service;
-
-    @Autowired
-    private CacheManager cacheManager;
-
     @Autowired(required = false)
     protected JpaUtil jpaUtil;
+    @Autowired
+    private CacheManager cacheManager;
 
     @Before
     public void setup() {

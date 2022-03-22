@@ -9,9 +9,7 @@ import ru.javawebinar.topjava.repository.UserRepository;
 
 import java.util.List;
 
-import static ru.javawebinar.topjava.util.ValidateForJdbc.validate;
-import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
-import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
+import static ru.javawebinar.topjava.util.ValidationUtil.*;
 
 @Service
 public class UserService {

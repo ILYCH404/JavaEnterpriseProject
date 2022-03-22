@@ -6,19 +6,18 @@ import ru.javawebinar.topjava.model.Role;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class UserSetExtractorForJdbc implements ResultSetExtractor<Map<Integer, Set<Role>>> {
 
     @Override
     public Map<Integer, Set<Role>> extractData(ResultSet rs) throws SQLException, DataAccessException {
-        Map<Integer, Set<Role>> roles = new LinkedHashMap<>();
+        Map<Integer, Set<Role>> roles = new HashMap<>();
         while (rs.next()) {
             Integer id = rs.getInt("user_id");
-            roles.putIfAbsent(id, new LinkedHashSet<>());
+            if (roles.get(id) == null) {
+                roles.putIfAbsent(id, new HashSet<>());
+            }
             Role role = Role.valueOf(rs.getString("role"));
             roles.get(id).add(role);
         }
