@@ -21,9 +21,6 @@ public class MealRestController extends AbstractMealController {
 
     static final String REST_URL = "/rest/profile/meals";
 
-    DateFormatter dateFormatter = new DateFormatter();
-
-    TimeFormatter timeFormatter = new TimeFormatter();
 
     @Override
     @GetMapping
@@ -47,7 +44,7 @@ public class MealRestController extends AbstractMealController {
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Meal meal,@PathVariable int id) {
+    public void update(@RequestBody Meal meal, @PathVariable int id) {
         super.update(meal, id);
     }
 
