@@ -10,6 +10,7 @@ const ctx = {
         }).done(updateTableByData);
     }
 };
+
 function clearFilter() {
     $("#filter")[0].reset();
     $.get(mealAjaxUrl, updateTableByData);
@@ -43,58 +44,9 @@ $(function () {
             "order": [
                 [
                     0,
-                    "asc"
+                    "desc"
                 ]
             ]
         })
     )
-
-//  http://xdsoft.net/jqplugins/datetimepicker/
-    var startDate = $('#startDate');
-    var endDate = $('#endDate');
-    startDate.datetimepicker({
-        timepicker: false,
-        format: 'Y-m-d',
-        formatDate: 'Y-m-d',
-        onShow: function (endDate) {
-            this.setOptions({
-                maxDate: endDate.val() ? endDate.val() : false
-            })
-        }
-    });
-    endDate.datetimepicker({
-        timepicker: false,
-        format: 'Y-m-d',
-        formatDate: 'Y-m-d',
-        onShow: function (startDate) {
-            this.setOptions({
-                minDate: startDate.val() ? startDate.val() : false
-            })
-        }
-    });
-
-    var startTime = $('#startTime');
-    var endTime = $('#endTime');
-    startTime.datetimepicker({
-        datepicker: false,
-        format: 'H:i',
-        onShow: function (endTime) {
-            this.setOptions({
-                maxTime: endTime.val() ? endTime.val() : false
-            })
-        }
-    });
-    endTime.datetimepicker({
-        datepicker: false,
-        format: 'H:i',
-        onShow: function (startTime) {
-            this.setOptions({
-                minTime: startTime.val() ? startTime.val() : false
-            })
-        }
-    });
-
-    $('#dateTime').datetimepicker({
-        format: 'Y-m-d H:i'
-    });
 });

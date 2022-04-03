@@ -19,19 +19,19 @@
                     <div class="row">
                         <div class="col-2">
                             <label for="startDate"><spring:message code="meal.startDate"/></label>
-                            <input class="form-control" name="startDate" id="startDate" autocomplete="off">
+                            <input class="form-control" type="date" name="startDate" id="startDate" autocomplete="off">
                         </div>
                         <div class="col-2">
                             <label for="endDate"><spring:message code="meal.endDate"/></label>
-                            <input class="form-control" name="endDate" id="endDate" autocomplete="off">
+                            <input class="form-control" type="date" name="endDate" id="endDate" autocomplete="off">
                         </div>
                         <div class="offset-2 col-3">
                             <label for="startTime"><spring:message code="meal.startTime"/></label>
-                            <input class="form-control" name="startTime" id="startTime" autocomplete="off">
+                            <input class="form-control" type="time" name="startTime" id="startTime" autocomplete="off">
                         </div>
                         <div class="col-3">
                             <label for="endTime"><spring:message code="meal.endTime"/></label>
-                            <input class="form-control" name="endTime" id="endTime" autocomplete="off">
+                            <input class="form-control" type="time" name="endTime" id="endTime" autocomplete="off">
                         </div>
                     </div>
                 </form>
@@ -66,9 +66,9 @@
             </thead>
             <c:forEach items="${requestScope.meals}" var="meal">
                 <jsp:useBean id="meal" type="ru.javawebinar.topjava.to.MealTo"/>
-                <tr id="${meal.id}">
-                    <td><c:out value="${meal.dateTime}"/></td>
-                    <td><a href="mailto:${meal.description}">${meal.description}</a></td>
+                <tr id="${meal.id}" data-meal-excess="${meal.excess}">
+                    <td><c:out value="${fn:formatDateTime(meal.dateTime)}"/></td>
+                    <td>${meal.description}</td>
                     <td>${meal.calories}</td>
                     <td><a><span class="fa fa-pencil"></span></a></td>
                     <td><a class="delete"><span class="fa fa-remove"></span></a></td>
