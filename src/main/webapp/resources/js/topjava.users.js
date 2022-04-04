@@ -5,6 +5,23 @@ const ctx = {
     ajaxUrl: userAjaxUrl
 };
 
+
+function switchEnabled(chkbox, id) {
+    var enabled = chkbox.is(":checked");
+//  https://stackoverflow.com/a/22213543/548473
+    $.ajax({
+        url: userAjaxUrl + id,
+        type: "POST",
+        data: "active=" + enabled
+    }).done(function () {
+        chkbox.closest("tr").attr("data-user-enabled", enabled);
+        successNoty(enabled ? "Enable" : "Disabled");
+    }).fail(function () {
+        $(chkbox).prop("checked", !enabled);
+    });
+}
+
+
 // $(document).ready(function () {
 $(function () {
     makeEditable(
