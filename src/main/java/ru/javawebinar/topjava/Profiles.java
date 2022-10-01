@@ -15,7 +15,6 @@ public class Profiles {
             HSQL_DB = "hsqldb",
             HEROKU = "heroku";
 
-    //  Get DB profile depending of DB driver in classpath
     public static String getActiveDbProfile() {
         if (ClassUtils.isPresent("org.postgresql.Driver", null)) {
             return POSTGRES_DB;

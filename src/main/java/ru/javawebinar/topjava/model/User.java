@@ -42,13 +42,12 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
     @Email
     @NotBlank
     @Size(max = 128)
-    @NoHtml(groups = {View.Web.class})  // https://stackoverflow.com/questions/17480809
+    @NoHtml(groups = {View.Web.class})
     private String email;
 
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(min = 5, max = 128)
-    // https://stackoverflow.com/a/12505165/548473
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -66,9 +65,8 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "uk_user_roles")})
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
-//    @Fetch(FetchMode.SUBSELECT)
     @BatchSize(size = 200)
-    @JoinColumn(name = "user_id") //https://stackoverflow.com/a/62848296/548473
+    @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 
@@ -76,9 +74,9 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
     @Range(min = 10, max = 10000)
     private int caloriesPerDay = DEFAULT_CALORIES_PER_DAY;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OrderBy("dateTime DESC")
-    @OnDelete(action = OnDeleteAction.CASCADE) //https://stackoverflow.com/a/44988100/548473
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
     private List<Meal> meals;
 

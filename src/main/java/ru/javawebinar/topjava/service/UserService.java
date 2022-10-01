@@ -76,7 +76,6 @@ public class UserService implements UserDetailsService {
     @CacheEvict(value = "users", allEntries = true)
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
-//      checkNotFoundWithId : check works only for JDBC, disabled
         checkModificationAllowed(user.id());
         prepareAndSave(user);
     }
@@ -95,7 +94,7 @@ public class UserService implements UserDetailsService {
         checkModificationAllowed(id);
         User user = get(id);
         user.setEnabled(enabled);
-        repository.save(user);  // !! need only for JDBC implementation
+        repository.save(user);
     }
 
     @Override

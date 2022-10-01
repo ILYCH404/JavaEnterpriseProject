@@ -57,9 +57,6 @@ public class JdbcUserRepository implements UserRepository {
                     """, parameterSource) == 0) {
                 return null;
             }
-            // Simplest implementation.
-            // More complicated : get user roles from DB and compare them with user.roles (assume that roles are changed rarely).
-            // If roles are changed, calculate difference in java and delete/insert them.
             deleteRoles(user);
             insertRoles(user);
         }
@@ -80,7 +77,6 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public User getByEmail(String email) {
-//        return jdbcTemplate.queryForObject("SELECT * FROM users WHERE email=?", ROW_MAPPER, email);
         List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE email=?", ROW_MAPPER, email);
         return setRoles(DataAccessUtils.singleResult(users));
     }
